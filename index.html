@@ -53,8 +53,6 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
 .glossary{margin:0;padding:0;list-style:none;display:grid;gap:7px}
 .glossary li{font-size:13px;line-height:1.4;padding:7px 9px;background:#F8F6FF;border-left:3px solid var(--purple);border-radius:4px}
 .glossary strong{color:var(--navy)}
-#realSdsLinks{padding:9px 10px;background:#F8F6FF;border:1px solid var(--line);border-radius:8px}
-#realSdsLinks a{color:var(--blue);font-weight:700}
 @media(max-width:850px){.grid{grid-template-columns:1fr}.bar{width:130px}.hotspot{width:34px;height:34px}}
 
 
@@ -144,6 +142,26 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
   outline:3px solid #836BFF55;
 }
 
+
+.resource-note{
+  margin-top:12px;
+  padding:9px 11px;
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  background:#F8F6FF;
+  border:1px solid var(--line);
+  border-radius:9px;
+  font-size:13px;
+  line-height:1.4;
+}
+.small-info{
+  width:22px;
+  height:22px;
+  flex-basis:22px;
+  font-size:14px;
+}
+
 .top-instruction{
   margin:12px 16px 12px;
   padding:10px 12px;
@@ -211,7 +229,7 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
  <div class="resource-strip">
   <div class="resource-instruction">
    <div class="info-icon" aria-hidden="true">i</div>
-   <div><strong>Safety information:</strong> Use the Safety Data Sheets below whenever you need chemical-specific information about hazards, PPE, handling, spill response or storage during the inspection.</div>
+   <div><strong>Safety information:</strong> Use the Safety Data Sheets and Safe Operating Procedures below whenever you need chemical- or task-specific information about hazards, PPE, handling, spill response, storage or equipment use during the inspection.</div>
   </div>
   <div class="sds-buttons">
    <a class="sds-button" href="acetone.pdf" target="_blank" rel="noopener">Acetone SDS</a>
@@ -223,6 +241,10 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
   <a class="sop-button" href="heater-stirrer-sop.pdf" target="_blank" rel="noopener">Heater Stirrer SOP</a>
   <a class="sop-button" href="sharps-glass-sop.pdf" target="_blank" rel="noopener">Sharps and Glass SOP</a>
 </div>
+  <div class="resource-note">
+    <div class="info-icon small-info" aria-hidden="true">i</div>
+    <div><strong>Tip:</strong> Open the SDSs and SOPs in a new tab so you can refer to them while completing the virtual laboratory.</div>
+  </div>
  </div>
 </section>
 <aside class="card side">
