@@ -53,6 +53,8 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
 .glossary{margin:0;padding:0;list-style:none;display:grid;gap:7px}
 .glossary li{font-size:13px;line-height:1.4;padding:7px 9px;background:#F8F6FF;border-left:3px solid var(--purple);border-radius:4px}
 .glossary strong{color:var(--navy)}
+#realSdsLinks{padding:9px 10px;background:#F8F6FF;border:1px solid var(--line);border-radius:8px}
+#realSdsLinks a{color:var(--blue);font-weight:700}
 @media(max-width:850px){.grid{grid-template-columns:1fr}.bar{width:130px}.hotspot{width:34px;height:34px}}
 
 
@@ -115,6 +117,33 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
 }
 
 
+.sop-buttons{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+
+.sop-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:10px 12px;
+  border-radius:9px;
+  background:#836BFF;
+  color:#fff !important;
+  text-decoration:none !important;
+  font-weight:700;
+  text-align:center;
+}
+
+.sop-button:hover,
+.sop-button:focus{
+  background:#140F50;
+  outline:3px solid #836BFF55;
+}
+
 .top-instruction{
   margin:12px 16px 0;
   padding:10px 12px;
@@ -129,52 +158,6 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
   line-height:1.45;
 }
 .top-instruction strong{display:block}
-
-
-.sop-buttons{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  margin-top:10px;
-}
-.sop-button{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:44px;
-  padding:10px 12px;
-  border-radius:9px;
-  background:var(--purple);
-  color:#fff !important;
-  text-decoration:none !important;
-  font-weight:700;
-  text-align:center;
-}
-.sop-button:hover,.sop-button:focus{
-  background:var(--navy);
-  outline:3px solid #836BFF55;
-}
-.resource-note{
-  margin-top:12px;
-  padding:9px 11px;
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  background:#F8F6FF;
-  border:1px solid var(--line);
-  border-radius:9px;
-  font-size:13px;
-  line-height:1.4;
-}
-.small-info{
-  width:22px;
-  height:22px;
-  flex-basis:22px;
-  font-size:14px;
-}
-@media(max-width:700px){
-  .sop-buttons{grid-template-columns:1fr}
-}
 
 </style>
 </head>
@@ -228,30 +211,25 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
  <div class="resource-strip">
   <div class="resource-instruction">
    <div class="info-icon" aria-hidden="true">i</div>
-   <div><strong>Safety information:</strong> Use the Safety Data Sheets and Safe Operating Procedures below whenever you need chemical- or task-specific information about hazards, PPE, handling, spill response, storage or equipment use during the inspection.</div>
+   <div><strong>Safety information:</strong> Use the Safety Data Sheets below whenever you need chemical-specific information about hazards, PPE, handling, spill response or storage during the inspection.</div>
   </div>
-
   <div class="sds-buttons">
    <a class="sds-button" href="acetone.pdf" target="_blank" rel="noopener">Acetone SDS</a>
    <a class="sds-button" href="NaOH.pdf" target="_blank" rel="noopener">Sodium Hydroxide SDS</a>
    <a class="sds-button" href="IPA.pdf" target="_blank" rel="noopener">Isopropyl Alcohol (IPA) SDS</a>
   </div>
 
-  <div class="sop-buttons">
-   <a class="sop-button" href="heater-stirrer-sop.pdf" target="_blank" rel="noopener">Heater Stirrer SOP</a>
-   <a class="sop-button" href="sharps-glass-sop.pdf" target="_blank" rel="noopener">Sharps and Glass SOP</a>
-  </div>
-
-  <div class="resource-note">
-   <span class="info-icon small-info" aria-hidden="true">i</span>
-   <span><strong>Tip:</strong> Open the SDSs and SOPs in a new tab so you can refer to them while completing the virtual laboratory.</span>
-  </div>
+<div class="sop-buttons">
+  <a class="sop-button" href="heater-stirrer-sop.pdf" target="_blank" rel="noopener">Heater Stirrer SOP</a>
+  <a class="sop-button" href="sharps-glass-sop.pdf" target="_blank" rel="noopener">Sharps and Glass SOP</a>
+</div>
  </div>
 </section>
 <aside class="card side">
  <h2>Safety inspection checklist</h2><div class="checklist" id="checklist"></div>
  <div class="actions"><button class="primary" id="finalCheck">Run final safety check</button>
-<button class="danger" id="reset">Reset</button></div>
+<button class="danger" id="reset">Reset</button>
+</div>
  <div class="result" id="result"></div>
 </aside>
 </div>
@@ -336,6 +314,7 @@ document.getElementById("modalSDS").onclick=()=>{
 const helpBtn=document.getElementById("helpBtn");
 const helpPanel=document.getElementById("helpPanel");
 helpBtn.onclick=()=>{const open=helpPanel.classList.toggle("open");helpBtn.setAttribute("aria-expanded",open?"true":"false");helpBtn.textContent=open?"Help ▴":"Help ▾";};
+
 
 document.getElementById("modalSOP").onclick=()=>{sopPanel.classList.toggle("open");};
 document.getElementById("finalCheck").onclick=()=>{const r=document.getElementById("result");r.classList.add("show");if(completed.size===14){r.innerHTML="<strong>Safety check complete.</strong><br>You have inspected all 14 areas. Before chemical work begins, hazards should be identified, controls confirmed, emergency equipment accessible and chemical information available.";}else{r.innerHTML=`<strong>Inspection incomplete.</strong><br>You have completed ${completed.size} of 14 areas. Inspect the remaining red hotspots before work begins.`;}};
