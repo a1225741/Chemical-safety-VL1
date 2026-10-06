@@ -20,3 +20,10 @@ Keep the filenames the same when replacing an asset. For example, to update the 
 
 The site continues to use the repository root as the GitHub Pages source. Because the main file is
 named `index.html`, the activity loads from the repository's GitHub Pages address.
+
+## SOP files
+
+- `heater-stirrer-sop.pdf` — Heater Stirrer SOP
+- `sharps-glass-sop.pdf` — Sharps and Glass SOP
+
+The SDS and SOP resource buttons open the documents in a new browser tab. The old duplicate SDS links and sidebar "Open SDS"/"Open SOP" buttons have been removed.
