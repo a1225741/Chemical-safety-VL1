@@ -337,8 +337,6 @@ const helpBtn=document.getElementById("helpBtn");
 const helpPanel=document.getElementById("helpPanel");
 helpBtn.onclick=()=>{const open=helpPanel.classList.toggle("open");helpBtn.setAttribute("aria-expanded",open?"true":"false");helpBtn.textContent=open?"Help ▴":"Help ▾";};
 
-openInspection("sds");sdsPanel.classList.add("open");};
-openInspection("brokenglass");sopPanel.classList.add("open");};
 document.getElementById("modalSOP").onclick=()=>{sopPanel.classList.toggle("open");};
 document.getElementById("finalCheck").onclick=()=>{const r=document.getElementById("result");r.classList.add("show");if(completed.size===14){r.innerHTML="<strong>Safety check complete.</strong><br>You have inspected all 14 areas. Before chemical work begins, hazards should be identified, controls confirmed, emergency equipment accessible and chemical information available.";}else{r.innerHTML=`<strong>Inspection incomplete.</strong><br>You have completed ${completed.size} of 14 areas. Inspect the remaining red hotspots before work begins.`;}};
 document.getElementById("reset").onclick=()=>{completed.clear();document.querySelectorAll(".hotspot").forEach(b=>b.classList.remove("done"));document.getElementById("result").classList.remove("show");drawChecklist();};
