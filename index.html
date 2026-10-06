@@ -132,6 +132,15 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
 }
 .top-instruction strong{display:block}
 
+
+.pdf-modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px;z-index:200}
+.pdf-modal.open{display:flex}
+.pdf-dialog{background:white;width:min(1100px,96vw);height:min(850px,92vh);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px #0006;display:flex;flex-direction:column}
+.pdf-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:var(--navy);color:white}
+.pdf-head strong{font-size:16px}
+.pdf-head button{background:white;color:var(--navy);padding:8px 12px}
+.pdf-frame{width:100%;height:100%;border:0;background:white}
+
 </style>
 </head>
 <body>
@@ -187,9 +196,9 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
    <div><strong>Safety information:</strong> Use the Safety Data Sheets below whenever you need chemical-specific information about hazards, PPE, handling, spill response or storage during the inspection.</div>
   </div>
   <div class="sds-buttons">
-   <a class="sds-button" href="acetone.pdf" target="_blank" rel="noopener">Acetone SDS</a>
-   <a class="sds-button" href="naoh.pdf" target="_blank" rel="noopener">Sodium Hydroxide SDS</a>
-   <a class="sds-button" href="ipa.pdf" target="_blank" rel="noopener">Isopropyl Alcohol (IPA) SDS</a>
+   <a class="sds-button sds-doc" href="acetone.pdf" data-pdf="acetone.pdf" data-title="Acetone SDS">Acetone SDS</a>
+   <a class="sds-button sds-doc" href="naoh.pdf" data-pdf="naoh.pdf" data-title="Sodium Hydroxide SDS">Sodium Hydroxide SDS</a>
+   <a class="sds-button sds-doc" href="ipa.pdf" data-pdf="ipa.pdf" data-title="Isopropyl Alcohol (IPA) SDS">Isopropyl Alcohol (IPA) SDS</a>
   </div>
  </div>
 </section>
@@ -198,9 +207,9 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
  <div class="actions"><button class="primary" id="finalCheck">Run final safety check</button>
 <div id="realSdsLinks" style="margin-top:8px;font-size:13px;line-height:1.45;">
   <strong>Safety Data Sheets:</strong><br>
-  <a href="acetone.pdf" target="_blank" rel="noopener">Acetone SDS</a><br>
-  <a href="naoh.pdf" target="_blank" rel="noopener">Sodium Hydroxide 40% SDS</a>
-  <br><a href="ipa.pdf" target="_blank" rel="noopener">iso-PROPYL ALCOHOL (IPA) SDS</a>
+  <a class="sds-doc" href="acetone.pdf" data-pdf="acetone.pdf" data-title="Acetone SDS">Acetone SDS</a><br>
+  <a class="sds-doc" href="naoh.pdf" data-pdf="naoh.pdf" data-title="Sodium Hydroxide SDS">Sodium Hydroxide 40% SDS</a>
+  <br><a class="sds-doc" href="ipa.pdf" data-pdf="ipa.pdf" data-title="Isopropyl Alcohol (IPA) SDS">iso-PROPYL ALCOHOL (IPA) SDS</a>
 </div><button class="secondary" id="openSDS">Open SDS</button>
 <button class="secondary" id="openSOP">Open SOP</button>
 <button class="danger" id="reset">Reset</button></div>
@@ -208,6 +217,17 @@ button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:point
 </aside>
 </div>
 </main>
+
+
+<div class="pdf-modal" id="pdfModal" aria-hidden="true">
+ <div class="pdf-dialog" role="dialog" aria-modal="true" aria-labelledby="pdfTitle">
+  <div class="pdf-head">
+   <strong id="pdfTitle">Safety Data Sheet</strong>
+   <button type="button" id="closePdf">Close</button>
+  </div>
+  <iframe class="pdf-frame" id="pdfFrame" title="Safety Data Sheet viewer"></iframe>
+ </div>
+</div>
 
 <div class="modal" id="modal"><div class="dialog">
  <h2 id="mTitle"></h2><div class="observation" id="mObs"></div><p><strong>What is the best action?</strong></p><div class="options" id="mOptions"></div>
@@ -295,5 +315,29 @@ document.getElementById("modalSOP").onclick=()=>{sopPanel.classList.toggle("open
 document.getElementById("finalCheck").onclick=()=>{const r=document.getElementById("result");r.classList.add("show");if(completed.size===14){r.innerHTML="<strong>Safety check complete.</strong><br>You have inspected all 14 areas. Before chemical work begins, hazards should be identified, controls confirmed, emergency equipment accessible and chemical information available.";}else{r.innerHTML=`<strong>Inspection incomplete.</strong><br>You have completed ${completed.size} of 14 areas. Inspect the remaining red hotspots before work begins.`;}};
 document.getElementById("reset").onclick=()=>{completed.clear();document.querySelectorAll(".hotspot").forEach(b=>b.classList.remove("done"));document.getElementById("result").classList.remove("show");drawChecklist();};
 modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});drawChecklist();
+
+const pdfModal=document.getElementById("pdfModal");
+const pdfFrame=document.getElementById("pdfFrame");
+const pdfTitle=document.getElementById("pdfTitle");
+function openPdf(url,title){
+  pdfFrame.src=url;
+  pdfTitle.textContent=title||"Safety Data Sheet";
+  pdfModal.classList.add("open");
+  pdfModal.setAttribute("aria-hidden","false");
+}
+function closePdf(){
+  pdfModal.classList.remove("open");
+  pdfModal.setAttribute("aria-hidden","true");
+  pdfFrame.src="about:blank";
+}
+document.querySelectorAll("a.sds-doc").forEach(a=>{
+  a.addEventListener("click",e=>{
+    e.preventDefault();
+    openPdf(a.dataset.pdf,a.dataset.title);
+  });
+});
+document.getElementById("closePdf").onclick=closePdf;
+pdfModal.addEventListener("click",e=>{if(e.target===pdfModal)closePdf();});
+
 </script>
 </body></html>
